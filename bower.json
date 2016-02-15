@@ -1,0 +1,21 @@
+{
+  "name": "clog",
+  "version": "1.0.0",
+  "homepage": "https://github.com/CVarisco/CLog.js",
+  "authors": [
+    "Christian Varisco"
+  ],
+  "description": "Small Javascript library to color and organize your console.log in Google Chrome.",
+  "main": "clog.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "chrome",
+    "js",
+    "javascript",
+    "log",
+    "console"
+  ],
+  "license": "MIT"
+}
