@@ -2,8 +2,8 @@
 
 Small (3 KB) Javascript library to color and organize your console.log in **Google Chrome** !
 
-![Normal](http://www.imageno.com/image.php?id=qaz4idmazemy&kk=201357701 "Normal")
-![Group enable](http://www.imageno.com/image.php?id=zzho1qk3qhg9&kk=672382132 "Group enable")
+![Normal](http://www.civi.christianvarisco.com/download/normalClog.png "Normal")
+![Group enable](http://www.civi.christianvarisco.com/download/groupClog.png "Group enable")
 
 ## Why should I use it ?
 
