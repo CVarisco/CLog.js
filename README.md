@@ -11,10 +11,8 @@ With my library you can now color code and organize your output by sections (eg.
 
 Download from Bower or npm.
 ```
-
 npm install clog_js
 bower install clog
-
 ```
 
 ## How to use CLog.
