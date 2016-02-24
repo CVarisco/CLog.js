@@ -129,13 +129,17 @@
         console.clear();
     };
 
-    // Compatibility for the UMD API. If we’re in the browser, add CLog as a global object.
-    if (typeof define === 'function' && define.amd) {
-        define('CLog', [], function() {
-            return CLog;
-        });
-    }else{
+    // Compatibility for the old require() API. If we’re in the browser, add CLog as a global object.
+    if (typeof exports !== 'undefined') {
+        if (typeof module !== 'undefined' && module.exports) {
+            exports = module.exports = CLog;
+        }
+        exports.CLog = CLog;
+    } else {
         w.CLog = CLog;
-    }
 
+        if (typeof define === 'function' && define.amd) {
+            define('CLog', [], function() { return CLog; });
+        }
+    }
 }(this));
