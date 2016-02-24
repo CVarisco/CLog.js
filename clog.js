@@ -4,7 +4,7 @@
 //      Copyright (c) 2016 Christian Varisco
 
 
-(function(w) {
+(function (w) {
 
     // Creates the CLog object function
     var CLog = function (options) {
@@ -24,7 +24,7 @@
 
     // Returns an array where argument[0] is always a color.
     // Color is set based on input (id or hex) or is set to default (black)
-    var _normalizeArguments = function(args) {
+    var _normalizeArguments = function (args) {
 
         var colors = this.options.colors; // Get colors from options
         var color = ''; // Init color
@@ -35,7 +35,7 @@
             if (argumentsArray[0][0] === "#") {
                 color = argumentsArray[0];
             } else {
-                for (c in colors) {
+                for (var c in colors) {
                     if (argumentsArray[0] === c) color = colors[argumentsArray[0]];
                 }
             }
@@ -49,11 +49,11 @@
 
     };
 
-    // Formats the output and prints to console
-    var _print = function(args) {
+    // Formats the output
+    var _createOutput = function (args) {
         var output = '%c ';
         var outputArgs = [];
-        var isGroupped = this.options.group;
+        var isGrouped = this.options.group;
 
         for (var i = 1; i < args.length; i++) {
             switch (typeof args[i]) {
@@ -69,7 +69,7 @@
                 case 'array':
                 case 'function':
                     outputArgs.push(args[i]);
-                    output += (isGroupped) ? '' : '(%O) ';
+                    output += (isGrouped) ? '' : '(%O) ';
                     break;
                 default:
                     output += args[i] + ' ';
@@ -78,30 +78,45 @@
 
         }
 
-        //If group is active, create group in console
-        if (isGroupped) {
-            console.groupCollapsed(output, "color:" + args[0] + ";");
+        //If group isn't active, slice the arguments output
+        if (!isGrouped) {
+            outputArgs.splice(0, 0, output);
+            outputArgs.splice(1, 0, "color:" + args[0] + ";");
+        }
 
-            outputArgs.forEach(function(arg) {
+        return {
+            color: args[0],
+            message: output,
+            args: outputArgs
+        }
+    };
+
+    // Prints to console
+    var _print = function (output) {
+        var isGrouped = this.options.group;
+
+        //If group is active, create group in console
+        if (isGrouped) {
+            console.groupCollapsed(output.message, "color:" + output.color + ";");
+
+            output.args.forEach(function (arg) {
                 console.dir(arg);
             });
 
             console.groupEnd();
         } else {
-            outputArgs.splice(0, 0, output);
-            outputArgs.splice(1, 0, "color:" + args[0] + ";");
-
-            console.log.apply(console, outputArgs);
+            console.log.apply(console, output.args);
         }
     };
 
     //Here's comes the Magic!
-    CLog.prototype.log = function() {
+    CLog.prototype.log = function () {
 
         // Check if Browser is Chrome
         if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-
-            _print(_normalizeArguments(arguments)); //Returns a normalized array (with [0] being a color)
+            var input = _normalizeArguments(arguments); //Returns a normalized array (with [0] being a color)
+            var output = _createOutput(input);
+            _print(output);
 
         } else {
             console.log.apply(console, arguments);
@@ -110,7 +125,7 @@
     };
 
     //Clear console if called
-    CLog.prototype.clear = function() {
+    CLog.prototype.clear = function () {
         console.clear();
     };
 
@@ -118,3 +133,19 @@
 
 }(window));
 
+
+var options = {
+    group: false,            // The console.group mode of Google Chrome is set to false by default
+    colors: {               // Define the color. (Default color: Black)
+        log: "#31f095",
+        home: "#e86024",
+        error: "#e22f2f",
+        network: "#08bce9"
+    }
+};
+
+var CLog = new CLog(options);
+
+CLog.log('log', 'String log', 12345, 'Another String', {id: '1234'}, ['a', 'b', 'c'], true, false);
+CLog.log('home', 'String log', 12345, 'Another String', {id: '1234'}, ['a', 'b', 'c'], true, false);
+CLog.log('network', 'String log', 12345, 'Another String', {id: '1234'}, ['a', 'b', 'c'], true, false);
