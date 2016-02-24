@@ -129,23 +129,13 @@
         console.clear();
     };
 
-    w.CLog = CLog;
-
-}(window));
-
-
-var options = {
-    group: false,            // The console.group mode of Google Chrome is set to false by default
-    colors: {               // Define the color. (Default color: Black)
-        log: "#31f095",
-        home: "#e86024",
-        error: "#e22f2f",
-        network: "#08bce9"
+    // Compatibility for the UMD API. If we’re in the browser, add CLog as a global object.
+    if (typeof define === 'function' && define.amd) {
+        define('CLog', [], function() {
+            return CLog;
+        });
+    }else{
+        w.CLog = CLog;
     }
-};
 
-var CLog = new CLog(options);
-
-CLog.log('log', 'String log', 12345, 'Another String', {id: '1234'}, ['a', 'b', 'c'], true, false);
-CLog.log('home', 'String log', 12345, 'Another String', {id: '1234'}, ['a', 'b', 'c'], true, false);
-CLog.log('network', 'String log', 12345, 'Another String', {id: '1234'}, ['a', 'b', 'c'], true, false);
+}(this));
