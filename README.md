@@ -52,6 +52,10 @@ CLog.log('#52361f', parameters...);
 
 If the first argument isn't a color ( id or hex ), it uses the default color which is black.
 
+## Versioning
+
+CLog.js is maintained under [the Semantic Versioning guidelines](http://semver.org/).
+
 ## License
 
 This software is released under MIT license terms.
