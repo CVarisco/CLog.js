@@ -8,27 +8,24 @@
 
     // Creates the CLog object function
     var CLog = function (options) {
-
-        //On input it assigns a custom color, otherwise it sets the default color
+        // On input it assigns a custom color, otherwise it sets the default color
         this.options = {
             group: options.group || null,
             colors: options.colors || null
         };
 
         this.options.colors.default = "#000000";
-        /*
-         Here You can write another options
-         */
-
     };
 
     // Returns an array where argument[0] is always a color.
     // Color is set based on input (id or hex) or is set to default (black)
     var _normalizeArguments = function (args) {
-
-        var colors = this.options.colors; // Get colors from options
-        var color = ''; // Init color
-        var argumentsArray = [].slice.apply(args); // Convert arguments into an Array
+        // Get colors from options
+        var colors = this.options.colors;
+        // Init color
+        var color = '';
+        // Convert arguments into an Array
+        var argumentsArray = [].slice.apply(args);
 
         // Search in options.colors or set color
         if (!!colors && typeof argumentsArray[0] === "string") {
@@ -41,12 +38,11 @@
             }
         }
 
-        //If color in the arguments doesn't exist, unshift the default color
+        // If color in the arguments doesn't exist, unshift the default color
         if (color === '') argumentsArray.unshift(this.options.colors.default);
         else argumentsArray[0] = color;
 
         return argumentsArray;
-
     };
 
     // Formats the output
@@ -78,7 +74,7 @@
 
         }
 
-        //If group isn't active, slice the arguments output
+        // If group isn't active, slice the arguments output
         if (!isGrouped) {
             outputArgs.splice(0, 0, output);
             outputArgs.splice(1, 0, "color:" + args[0] + ";");
@@ -95,7 +91,7 @@
     var _print = function (output) {
         var isGrouped = this.options.group;
 
-        //If group is active, create group in console
+        // If group is active, create group in console
         if (isGrouped) {
             console.groupCollapsed(output.message, "color:" + output.color + ";");
 
@@ -111,20 +107,19 @@
 
     //Here's comes the Magic!
     CLog.prototype.log = function () {
-
         // Check if Browser is Chrome
         if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-            var input = _normalizeArguments(arguments); //Returns a normalized array (with [0] being a color)
+            //Returns a normalized array (with [0] being a color)
+            var input = _normalizeArguments(arguments);
             var output = _createOutput(input);
             _print(output);
 
         } else {
             console.log.apply(console, arguments);
         }
-
     };
 
-    //Clear console if called
+    // Clear console if called
     CLog.prototype.clear = function () {
         console.clear();
     };
