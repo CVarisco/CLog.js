@@ -3,11 +3,10 @@
 //      http://www.christianvarisco.com
 //      Copyright (c) 2016 Christian Varisco
 
-
-(function (w) {
+(function(w) {
 
     // Creates the CLog object function
-    var CLog = function (options) {
+    var CLog = function(options) {
         // On input it assigns a custom color, otherwise it sets the default color
         this.options = {
             group: options.group || null,
@@ -19,7 +18,7 @@
 
     // Returns an array where argument[0] is always a color.
     // Color is set based on input (id or hex) or is set to default (black)
-    var _normalizeArguments = function (args) {
+    var _normalizeArguments = function(args) {
         // Get colors from options
         var colors = this.options.colors;
         // Init color
@@ -33,20 +32,25 @@
                 color = argumentsArray[0];
             } else {
                 for (var c in colors) {
-                    if (argumentsArray[0] === c) color = colors[argumentsArray[0]];
+                    if (argumentsArray[0] === c) {
+                        color = colors[argumentsArray[0]];
+                    }
                 }
             }
         }
 
         // If color in the arguments doesn't exist, unshift the default color
-        if (color === '') argumentsArray.unshift(this.options.colors.default);
-        else argumentsArray[0] = color;
+        if (color === '') {
+            argumentsArray.unshift(this.options.colors.default);
+        } else {
+            argumentsArray[0] = color;
+        }
 
         return argumentsArray;
     };
 
     // Formats the output
-    var _createOutput = function (args) {
+    var _createOutput = function(args) {
         var output = '%c ';
         var outputArgs = [];
         var isGrouped = this.options.group;
@@ -88,14 +92,14 @@
     };
 
     // Prints to console
-    var _print = function (output) {
+    var _print = function(output) {
         var isGrouped = this.options.group;
 
         // If group is active, create group in console
         if (isGrouped) {
             console.groupCollapsed(output.message, "color:" + output.color + ";");
 
-            output.args.forEach(function (arg) {
+            output.args.forEach(function(arg) {
                 console.dir(arg);
             });
 
@@ -106,7 +110,7 @@
     };
 
     //Here's comes the Magic!
-    CLog.prototype.log = function () {
+    CLog.prototype.log = function() {
         // Check if Browser is Chrome
         if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
             //Returns a normalized array (with [0] being a color)
@@ -120,7 +124,7 @@
     };
 
     // Clear console if called
-    CLog.prototype.clear = function () {
+    CLog.prototype.clear = function() {
         console.clear();
     };
 
@@ -134,7 +138,8 @@
         w.CLog = CLog;
 
         if (typeof define === 'function' && define.amd) {
-            define('CLog', [], function() { return CLog; });
+            define('CLog', [], function() {
+                return CLog; });
         }
     }
 }(this));
